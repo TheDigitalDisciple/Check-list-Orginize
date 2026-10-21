@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Organized — Preview</title>
+<style>
+* { box-sizing: border-box; }
+body {
+  margin: 0; padding: 28px 14px;
+  background: #e9eaf0; color: #202033;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+}
+.phone {
+  max-width: 390px; min-height: 740px; margin: auto;
+  padding: 28px 20px; background: #f8f8fc;
+  border: 8px solid #22222b; border-radius: 38px;
+  box-shadow: 0 20px 55px #0002;
+}
+.eyebrow { color: #77778b; font-size: 11px; letter-spacing: 2px; }
+h1 { font-size: 32px; margin: 8px 0; }
+.sub { color: #77778b; font-size: 14px; }
+.card {
+  background: white; border-radius: 18px; padding: 18px;
+  margin: 20px 0; box-shadow: 0 3px 15px #20203308;
+}
+.progress {
+  height: 7px; background: #e8e6f5;
+  border-radius: 8px; overflow: hidden; margin: 14px 0 8px;
+}
+#bar { height: 100%; width: 0; background: #6556d9; transition: width .2s; }
+.section-title { font-size: 20px; font-weight: 700; }
+.task {
+  display: flex; align-items: center; gap: 12px;
+  padding: 14px 0; border-bottom: 1px solid #eeeef3;
+}
+.task:last-child { border: 0; }
+.task input { width: 19px; height: 19px; accent-color: #6556d9; }
+.task span { flex: 1; font-size: 14px; }
+.task input:checked + span {
+  color: #9292a0; text-decoration: line-through;
+}
+.category { color: #77778b; font-size: 12px; }
+button {
+  border: 0; border-radius: 12px; padding: 12px 16px;
+  background: #6556d9; color: white; font-weight: 600;
+  cursor: pointer;
+}
+#newTask { width: 100%; margin-top: 15px; }
+#addForm { display: flex; gap: 8px; margin-top: 14px; }
+#taskName {
+  min-width: 0; flex: 1; padding: 10px;
+  border: 1px solid #ddd; border-radius: 10px;
+}
+#addForm button { padding: 10px; }
+</style>
+</head>
+<body>
+<main class="phone">
+  <div class="eyebrow">YOUR SPACE</div>
+  <h1>Get organized.</h1>
+  <p class="sub">A little progress adds up.</p>
+
+  <section class="card">
+    <strong>Your progress</strong>
+    <div class="progress"><div id="bar"></div></div>
+    <div class="sub" id="summary">0 of 3 completed</div>
+  </section>
+
+  <div class="section-title">My lists</div>
+  <section class="card">
+    <div style="font-size:28px">☑️</div>
+    <h3 style="margin-bottom:5px">Daily Routine</h3>
+    <div class="category">PERSONAL</div>
+    <div id="tasks">
+      <label class="task"><input type="checkbox"><span>Plan my day</span></label>
+      <label class="task"><input type="checkbox"><span>Complete my priorities</span></label>
+      <label class="task"><input type="checkbox"><span>Review my progress</span></label>
+    </div>
+    <button id="newTask" onclick="showForm()">+ Add task</button>
+    <form id="addForm" hidden>
+      <input id="taskName" placeholder="Enter a task" required>
+      <button type="submit">Add</button>
+    </form>
+  </section>
+  <p class="sub" style="text-align:center">ORGANIZED · APP PREVIEW</p>
+</main>
+
+<script>
+const tasks = document.getElementById('tasks');
+function updateProgress() {
+  const boxes = [...tasks.querySelectorAll('input[type=checkbox]')];
+  const done = boxes.filter(box => box.checked).length;
+  document.getElementById('bar').style.width =
+    (boxes.length ? done / boxes.length * 100 : 0) + '%';
+  document.getElementById('summary').textContent =
+    `${done} of ${boxes.length} completed`;
+}
+tasks.addEventListener('change', updateProgress);
+function showForm() {
+  document.getElementById('addForm').hidden = false;
+  document.getElementById('taskName').focus();
+}
+document.getElementById('addForm').addEventListener('submit', event => {
+  event.preventDefault();
+  const input = document.getElementById('taskName');
+  const label = document.createElement('label');
+  label.className = 'task';
+  const checkbox = document.createElement('input');
+  checkbox.type = 'checkbox';
+  const span = document.createElement('span');
+  span.textContent = input.value.trim();
+  label.append(checkbox, span);
+  tasks.append(label);
+  input.value = '';
+  document.getElementById('addForm').hidden = true;
+  updateProgress();
+});
+updateProgress();
+</script>
+</body>
+</html>

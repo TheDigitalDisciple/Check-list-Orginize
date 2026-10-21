@@ -6,8 +6,8 @@ custom checklists, categories, and recurring routines.
 
 ## Planned Features
 
-- [ ] Daily checklists
-- [ ] Create custom lists
+- [x] Daily checklists
+- [x] Create custom lists
 - [ ] Categories and folders
 - [ ] Task completion and progress tracking
 - [ ] Reminders and notifications
